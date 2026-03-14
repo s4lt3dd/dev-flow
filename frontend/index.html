@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevFlow AI</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+
+<!-- ── Login screen (shown until authenticated) ──────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <h1 class="login-title">DevFlow AI</h1>
+    <p class="login-subtitle">Requirements &rarr; User Stories &rarr; Jira</p>
+    <p class="login-desc">Sign in to access your workspace and start generating stories from meeting transcripts.</p>
+    <button class="btn btn-primary login-btn" id="login-btn">Sign in</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── Register modal (shown on first login) ─────────────────────────────── -->
+<div id="register-overlay" hidden>
+  <div class="modal-card">
+    <h2 class="modal-title">Set up your workspace</h2>
+    <p class="modal-desc">This is your first time signing in. Give your team workspace a name to get started.</p>
+    <form id="register-form" autocomplete="off">
+      <div class="field">
+        <label for="workspace-name">Team / workspace name</label>
+        <input type="text" id="workspace-name" placeholder="e.g. WatchdogHQ Product Team" required />
+      </div>
+      <div class="field">
+        <label for="display-name">Your display name</label>
+        <input type="text" id="display-name" placeholder="e.g. Sam Tedros" required />
+      </div>
+      <button type="submit" class="btn btn-primary" id="register-btn">Create workspace</button>
+      <div class="error-box" id="register-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ── App shell (hidden until authenticated) ─────────────────────────────── -->
+<div id="app" hidden>
+
+<header>
+  <h1>DevFlow AI</h1>
+  <span>Requirements &rarr; User Stories &rarr; Jira</span>
+  <div class="health-dot" id="health-dot">checking…</div>
+  <div class="user-info" id="user-info">
+    <span id="user-label"></span>
+    <button class="btn btn-outline btn-sm" id="logout-btn">Sign out</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Tab buttons -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="panel-text">Type Transcript</button>
+    <button class="tab-btn"        data-tab="panel-audio">Record Audio</button>
+    <button class="tab-btn"        data-tab="panel-dashboard">Dashboard</button>
+  </div>
+
+  <!-- ── Text panel ──────────────────────────────────────────────── -->
+  <section id="panel-text" class="panel active">
+    <div class="card">
+      <form id="text-form" autocomplete="off">
+
+        <div class="field">
+          <label for="transcript">Meeting transcript</label>
+          <textarea id="transcript" rows="9"
+            placeholder="Paste your meeting notes or transcript here…&#10;&#10;e.g. &quot;We need to fix the checkout flow. Users are frustrated with how long it takes. We should also add dark mode eventually.&quot;"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="ctx-text">Project context <span style="font-weight:400;text-transform:none">(optional)</span></label>
+          <input type="text" id="ctx-text" placeholder="e.g. E-commerce Platform — Sprint 24" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+          <button type="submit" class="btn btn-primary" id="text-submit">
+            Generate Stories
+          </button>
+          <div class="loader" id="text-loader">
+            <div class="spinner"></div>
+            Running pipeline — this may take 30–60 s…
+          </div>
+        </div>
+
+        <div class="error-box" id="text-error"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── Audio panel ─────────────────────────────────────────────── -->
+  <section id="panel-audio" class="panel">
+    <div class="card">
+
+      <div class="field">
+        <label for="ctx-audio">Project context <span style="font-weight:400;text-transform:none">(optional)</span></label>
+        <input type="text" id="ctx-audio" placeholder="e.g. Mobile App — Sprint 5" />
+      </div>
+
+      <div class="recorder-area">
+        <div class="mic-ring" id="mic-ring">🎙️</div>
+        <div class="rec-timer" id="rec-timer">00:00</div>
+        <div class="rec-status" id="rec-status">Press Record and speak your requirements.</div>
+
+        <div class="rec-btns">
+          <button class="btn btn-danger"   id="record-btn">Record</button>
+          <button class="btn btn-outline"  id="stop-btn"   disabled>Stop</button>
+          <button class="btn btn-primary"  id="submit-audio" disabled>Submit</button>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div class="loader" id="audio-loader">
+          <div class="spinner"></div>
+          Transcribing + running pipeline — this may take 60–90 s…
+        </div>
+      </div>
+
+      <div class="error-box" id="audio-error"></div>
+    </div>
+  </section>
+
+  <!-- ── Dashboard panel ─────────────────────────────────────────── -->
+  <section id="panel-dashboard" class="panel">
+
+    <div class="loader dash-loader" id="dash-loader">
+      <div class="spinner"></div>
+      Loading analytics…
+    </div>
+
+    <div id="dash-content" hidden>
+
+      <!-- Issues to watch (only shown when High-priority stories exist) -->
+      <div id="issues-banner" hidden>
+        <div class="issues-header">
+          <span class="issues-icon">⚠</span>
+          <span id="issues-title">High Priority Issues</span>
+        </div>
+        <div id="issues-list"></div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-grid" id="stats-grid"></div>
+
+      <!-- Priority breakdown + Recent sessions -->
+      <div class="dash-row">
+        <div class="dash-col">
+          <div class="card">
+            <h3 class="dash-section-title">Priority Breakdown</h3>
+            <div id="priority-chart"></div>
+          </div>
+        </div>
+        <div class="dash-col">
+          <div class="card">
+            <h3 class="dash-section-title">Recent Sessions</h3>
+            <div id="recent-sessions"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- All stories table -->
+      <div class="card dash-stories-card">
+        <div class="dash-stories-header">
+          <h3 class="dash-section-title">All Stories</h3>
+          <div class="dash-filters">
+            <select id="filter-priority">
+              <option value="">All priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <select id="filter-source">
+              <option value="">All sources</option>
+              <option value="text">Text</option>
+              <option value="audio">Audio</option>
+            </select>
+          </div>
+        </div>
+        <div class="stories-table-wrap">
+          <table class="stories-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Points</th>
+                <th>Source</th>
+                <th>Jira</th>
+                <th>Quality</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="stories-tbody"></tbody>
+          </table>
+          <div class="dash-empty" id="stories-empty" hidden>No stories found.</div>
+        </div>
+        <div class="dash-pagination" id="stories-pagination"></div>
+      </div>
+
+    </div><!-- /#dash-content -->
+  </section>
+
+  <!-- ── Results ─────────────────────────────────────────────────── -->
+  <section id="results" hidden>
+    <h2 id="results-heading">Generated Stories</h2>
+    <div class="story-grid" id="story-grid"></div>
+  </section>
+
+</main>
+</div><!-- /#app -->
+
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.1/auth0-spa-js.production.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

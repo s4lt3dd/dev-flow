@@ -1,0 +1,64 @@
+{
+  "labels": [
+    {
+      "transcript_id": "transcript_001",
+      "priority": "High",
+      "priority_confidence": 0.95,
+      "rationale": "Direct revenue impact, customer frustration, daily losses",
+      "expected_story_elements": {
+        "user_type": "customer",
+        "goal": "complete checkout faster",
+        "benefit": "reduce cart abandonment and frustration",
+        "story_points": 5
+      }
+    },
+    {
+      "transcript_id": "transcript_002",
+      "priority": "Low",
+      "priority_confidence": 0.90,
+      "rationale": "Nice to have, no urgency, deferred timeline",
+      "expected_story_elements": {
+        "user_type": "user",
+        "goal": "toggle dark mode",
+        "benefit": "reduce eye strain",
+        "story_points": 3
+      }
+    },
+    {
+      "transcript_id": "transcript_003",
+      "priority": "Low",
+      "priority_confidence": 0.85,
+      "rationale": "Cosmetic issue, explicitly called minor",
+      "expected_story_elements": {
+        "user_type": "designer",
+        "goal": "consistent button styling",
+        "benefit": "maintain design system",
+        "story_points": 1
+      }
+    },
+    {
+      "transcript_id": "transcript_004",
+      "priority": "High",
+      "priority_confidence": 0.98,
+      "rationale": "Core functionality broken, high volume complaints, competitive threat",
+      "expected_story_elements": {
+        "user_type": "customer",
+        "goal": "find products reliably",
+        "benefit": "complete purchases successfully",
+        "story_points": 8
+      }
+    },
+    {
+      "transcript_id": "transcript_005",
+      "priority": "Medium",
+      "priority_confidence": 0.75,
+      "rationale": "Enterprise request but not blocking, workarounds exist",
+      "expected_story_elements": {
+        "user_type": "enterprise user",
+        "goal": "export reports to PDF",
+        "benefit": "improve workflow efficiency",
+        "story_points": 3
+      }
+    }
+  ]
+}

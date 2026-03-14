@@ -1,0 +1,39 @@
+{
+  "transcripts": [
+    {
+      "id": "transcript_001",
+      "context": "E-commerce Sprint Planning - Q1 2025",
+      "text": "Product Manager: We need to address the checkout flow urgently. Users are really frustrated with how long it takes. We're losing customers daily because of this. Developer: How many steps currently? Product Manager: Five clicks from cart to confirmation. Customers are abandoning purchases. This is critical for revenue - we're talking thousands in lost sales per day.",
+      "expert_priority": "High",
+      "expected_elements": ["checkout", "streamline", "reduce steps", "revenue impact"]
+    },
+    {
+      "id": "transcript_002",
+      "context": "Mobile App Feature Discussion",
+      "text": "Designer: It would be nice to have dark mode eventually. Several users mentioned it in feedback. Developer: How urgent is this? Product Manager: Not very. It's a nice to have when we have bandwidth. Maybe in Q2 or Q3.",
+      "expert_priority": "Low",
+      "expected_elements": ["dark mode", "UI preference", "low priority"]
+    },
+    {
+      "id": "transcript_003",
+      "context": "Platform Stability Meeting",
+      "text": "Developer: The login button color doesn't match the design system. Product Manager: Yeah, that's just cosmetic though. Known issue but very minor. We can look at it when we have time. Let's focus on the critical bugs first.",
+      "expert_priority": "Low",
+      "expected_elements": ["cosmetic", "button styling", "minor"]
+    },
+    {
+      "id": "transcript_004",
+      "context": "Customer Support Escalation",
+      "text": "Support Lead: We're getting flooded with complaints about the search function. Customers can't find products even when typing exact names. This is blocking purchases. Product Manager: How many tickets? Support Lead: 50+ in the last week alone. People are giving up and going to competitors.",
+      "expert_priority": "High",
+      "expected_elements": ["search", "broken functionality", "customer complaints", "revenue loss"]
+    },
+    {
+      "id": "transcript_005",
+      "context": "Performance Review Meeting",
+      "text": "Product Manager: We should add export to PDF for reports. A few enterprise clients asked about it. Developer: Is this blocking anything? Product Manager: No, they have workarounds. It would improve their workflow but it's not stopping them from using the product.",
+      "expert_priority": "Medium",
+      "expected_elements": ["PDF export", "enterprise feature", "workflow improvement"]
+    }
+  ]
+}
