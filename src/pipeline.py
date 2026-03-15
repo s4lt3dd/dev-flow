@@ -215,6 +215,8 @@ class MultiModelPipeline:
         """
         indicators = [
             "we need to",
+            "we need",
+            "need this",
             "we should",
             "it would be good to",
             "it would be nice to",
@@ -223,13 +225,24 @@ class MultiModelPipeline:
             "users need",
             "the issue is",
             "the problem is",
+            "is broken",
+            "is not working",
+            "isn't working",
+            "doesn't work",
+            "not working",
+            "broken in",
             "users complain about",
             "customers mention",
             "we have to",
             "let's add",
             "can we",
             "frustrated with",
-            "annoying that"
+            "annoying that",
+            "need to fix",
+            "needs to be fixed",
+            "fixed immediately",
+            "as soon as possible",
+            "asap"
         ]
 
         requirements = []
