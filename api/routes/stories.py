@@ -9,10 +9,13 @@ without requiring a server restart.
 
 import asyncio
 import json
+import logging
 import os
 import sys
 import tempfile
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 import requests as _requests
 from cryptography.fernet import Fernet
@@ -194,6 +197,7 @@ async def stories_from_audio(
             lambda: pipeline.process_audio_file(tmp_path, project_context)
         )
     except Exception as exc:
+        logger.error("Audio processing failed: %s", exc, exc_info=True)
         raise HTTPException(status_code=500, detail=str(exc))
     finally:
         os.unlink(tmp_path)
