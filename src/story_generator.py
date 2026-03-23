@@ -45,7 +45,7 @@ class StoryGenerator:
                 logger.error("Ollama server not responding correctly")
         except requests.exceptions.RequestException as e:
             logger.error(f"Cannot connect to Ollama: {e}")
-            logger.error("Make sure Ollama is running: brew services start ollama")
+            logger.error("Make sure Ollama is running")
     
     def generate_story(self,
                       requirement: str,

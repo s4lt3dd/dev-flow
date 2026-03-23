@@ -2,9 +2,6 @@ import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 import torch
 import re
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import StandardScaler
-import pickle
 import logging
 from typing import Dict, List, Tuple
 

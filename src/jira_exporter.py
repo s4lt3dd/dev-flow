@@ -4,7 +4,6 @@ Jira Exporter: publishes generated user stories to Jira via REST API v3.
 
 import logging
 from typing import Any, Dict, List, Optional
-from urllib import response
 
 import requests
 from requests.auth import HTTPBasicAuth

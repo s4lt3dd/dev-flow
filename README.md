@@ -12,7 +12,7 @@ DevFlow AI listens to your requirements discussions and automatically generates 
 3. **Priority Detection** — ensemble model assigns High / Medium / Low
 4. **Story Generation** — Llama 3.2 via Ollama generates structured user stories
 5. **QUS Evaluation** — scores each story against 6 quality criteria (Well-formed, Atomic, Minimal, Complete, Testable, Estimable)
-6. **Jira Export** — optionally pushes stories to your Jira project
+6. **Jira Export** — pushes stories to your Jira project
 
 ## Features
 
