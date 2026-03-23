@@ -289,12 +289,56 @@ def demo_jira_export():
         print(f"  ✗ Jira export failed: {e}")
 
 
+def demo_qus_pipeline(runs: int = 2):
+    """
+    Run the full pipeline on all test transcripts and evaluate with QUS.
+
+    Processes every transcript in data/test_transcripts.json, collects the
+    generated stories, and prints a QUS evaluation report.  Repeating the
+    same run across multiple executions should yield a consistent story count
+    because requirement extraction is deterministic (regex heuristics) — only
+    the LLM story text varies.
+
+    Args:
+        runs: Number of independent pipeline executions to perform.
+    """
+    print("\n" + "="*80)
+    print(" DEMO 8: FULL PIPELINE + QUS EVALUATION (ALL TRANSCRIPTS)")
+    print("="*80 + "\n")
+
+    transcripts = load_test_data()
+    if not transcripts:
+        print("Cannot run demo - test data not found")
+        return
+
+    pipeline = MultiModelPipeline(use_advanced_detector=True)
+    evaluator = StoryEvaluator()
+
+    for run in range(1, runs + 1):
+        print(f"\n{'─'*80}")
+        print(f" Run {run}/{runs}")
+        print(f"{'─'*80}")
+
+        all_stories = []
+
+        for t in transcripts:
+            stories = pipeline.process_transcript(
+                transcript=t['text'],
+                project_context=t['context']
+            )
+            print(f"  {t['id']} ({t['context']}): {len(stories)} story/stories")
+            all_stories.extend(stories)
+
+        print(f"\n  Total stories generated: {len(all_stories)}")
+        evaluator.print_evaluation_report(all_stories)
+
+
 def demo_evaluation():
     """Demonstrate quality evaluation"""
     print("\n" + "="*80)
     print(" DEMO 6: QUALITY EVALUATION (QUS FRAMEWORK)")
     print("="*80 + "\n")
-    
+
     # Create sample stories for evaluation
     stories = [
         {
@@ -349,27 +393,31 @@ def main():
     print("  5. Complete Pipeline  (use_advanced_detector=True, enriched story output)")
     print("  6. Quality Evaluation using QUS Framework")
     print("  7. Jira Export  (generates one story and pushes it to your Jira project)")
+    print("  8. Full Pipeline + QUS Evaluation (all transcripts, N runs)")
 
-    # input("\nPress Enter to start Demo 1...")
-    # demo_sentiment_analysis()
+    input("\nPress Enter to start Demo 1...")
+    demo_sentiment_analysis()
 
-    # input("\nPress Enter to start Demo 2...")
-    # demo_advanced_priority()
+    input("\nPress Enter to start Demo 2...")
+    demo_advanced_priority()
 
-    # input("\nPress Enter to start Demo 3...")
-    # demo_context_aware_priority()
+    input("\nPress Enter to start Demo 3...")
+    demo_context_aware_priority()
 
-    # input("\nPress Enter to start Demo 4...")
-    # demo_story_generation()
+    input("\nPress Enter to start Demo 4...")
+    demo_story_generation()
 
-    # input("\nPress Enter to start Demo 5...")
-    # demo_full_pipeline()
+    input("\nPress Enter to start Demo 5...")
+    demo_full_pipeline()
 
-    # input("\nPress Enter to start Demo 6...")
-    # demo_evaluation()
+    input("\nPress Enter to start Demo 6...")
+    demo_evaluation()
 
     input("\nPress Enter to start Demo 7 (Jira export)...")
     demo_jira_export()
+
+    input("\nPress Enter to start Demo 8 (Full pipeline + QUS evaluation)...")
+    demo_qus_pipeline(runs=2)
 
     print("\n" + "="*80)
     print(" DEMO COMPLETE")
