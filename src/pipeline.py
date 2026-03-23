@@ -150,7 +150,7 @@ class MultiModelPipeline:
         stories = []
         for i, req in enumerate(requirements, 1):
             logger.info(f"\n--- Processing requirement {i}/{len(requirements)} ---")
-            logger.info(f"Text: {req['text'][:80]}...")
+            logger.info(f"Text: {req['text'][:80]}{'...' if len(req['text']) > 80 else ''}")
             try:
                 story = self._process_requirement(req['text'], project_context)
                 stories.append(story)
@@ -174,7 +174,7 @@ class MultiModelPipeline:
         stories = []
         for i, req_text in enumerate(requirements, 1):
             logger.info(f"\n--- Requirement {i}/{len(requirements)} ---")
-            logger.info(f"Text: {req_text[:80]}...")
+            logger.info(f"Text: {req_text[:80]}{'...' if len(req_text) > 80 else ''}")
             try:
                 story = self._process_requirement(req_text, project_context)
                 stories.append(story)

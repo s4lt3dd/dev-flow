@@ -61,8 +61,8 @@ class JiraExporter:
         if not response.ok:
             raise requests.HTTPError(
                 f"{response.status_code}: {response.text}", response=response
-            )           
-        #response.raise_for_status()
+            )
+
         data = response.json()
         result = {
             "jira_key": data["key"],

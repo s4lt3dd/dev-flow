@@ -261,7 +261,7 @@ def demo_jira_export():
         return
 
     requirement = (
-        "API timing out for a large dataset when doing geocoding "
+        "API timing out for a large dataset when doing geocoding. "
         "This is a critical issue affecting hundreds of clients and users daily"
     )
     print(f"Requirement: {requirement}\n")
@@ -379,7 +379,7 @@ def demo_evaluation():
 
 def main():
     """Run all demos"""
-    print("\n")
+    print()
     print("╔" + "="*78 + "╗")
     print("║" + " "*20 + "DevFlow AI - Feature Prototype Demo" + " "*23 + "║")
     print("║" + " "*15 + "Multi-Model Requirements Automation" + " "*28 + "║")
